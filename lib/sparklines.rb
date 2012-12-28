@@ -267,6 +267,7 @@ class Sparklines
     background_color = @options[:background_color]
 
     create_canvas(@norm_data.length * step + 2, height, background_color)
+    separator_width  = [@canvas.x_resolution/75.0.round, 1.0].max.to_i
 
     upper            = @options[:upper].to_f
     below_color      = @options[:below_color]
@@ -283,7 +284,7 @@ class Sparklines
       @draw.stroke('transparent')
       @draw.fill(color)
       bar_height_from_top = @canvas.rows - ( (r.to_f / max_normalized.to_f) * @canvas.rows)
-      @draw.rectangle( i, @canvas.rows, i + step - 2, bar_height_from_top )
+      @draw.rectangle( i, @canvas.rows, i + step - separator_width - 1, bar_height_from_top )
       i += step
     end
 
@@ -737,7 +738,9 @@ class Sparklines
     @draw = Magick::Draw.new
     @draw.pointsize = @@pointsize # TODO Use height
     @draw.pointsize = @options[:font_size] if @options.has_key?(:font_size)
+    @draw.density = @options[:density] if @options.has_key?(:density)
     @canvas = Magick::Image.new(w , h) { self.background_color = bkg_col }
+    @canvas.density = @options[:density] if @options.has_key?(:density)
 
     # Make room for label and last value
     unless @options[:label].nil?
@@ -754,6 +757,7 @@ class Sparklines
 
     @canvas = Magick::Image.new(w , h) { self.background_color = bkg_col }
     @canvas.format = "PNG"
+    @canvas.density = @options[:density] if @options.has_key?(:density)
 
     # Draw label and last value
     unless @options[:label].nil?

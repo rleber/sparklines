@@ -1,0 +1,52 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'thor'
+require_relative '../lib/sparklines'
+# require 'fileutils'
+# require 'tidy_table'
+
+class Sparklr < Thor
+  
+  desc :plot, "Plot a sparkline"
+  option 'above_color',      aliases: '-A', type: 'string',  desc: 'Color for bars above limit'
+  option 'background_color', aliases: '-b', type: 'string',  desc: 'Background color'
+  option 'below_color',      aliases: '-B', type: 'string',  desc: 'Color for bars below limit'
+  option 'density',          aliases: '-d', type: 'string',  desc: 'Image resolution (e.g. "300x300")', default: '75x75'
+  option 'font_size',        aliases: '-f', type: 'numeric', desc: 'Font size for labels'
+  option 'height',           aliases: '-h', type: 'numeric', desc: 'Height of sparkline'
+  option 'label',            aliases: '-l', type: 'string',  desc: 'Label for sparkline'
+  option 'label_format',     aliases: '-F', type: 'string',  desc: 'Format for data label (sprintf format string)'
+  option 'last_color',       aliases: '-Z', type: 'string',  desc: 'Color for last data point'
+  option 'line_color',       aliases: '-L', type: 'string',  desc: 'Color for sparkline'
+  option 'min',              aliases: '-m', type: 'numeric', desc: 'Minimum value'
+  option 'max',              aliases: '-M', type: 'numeric', desc: 'Maximum value'
+  option 'step',             aliases: '-s', type: 'numeric', desc: 'Step between plot points'
+  option 'target',           aliases: '-t', type: 'numeric', desc: 'Target value'
+  option 'target_color',     aliases: '-T', type: 'string',  desc: 'Color for target line', default: 'red'
+  option 'upper',            aliases: '-u', type: 'numeric', desc: 'Upper limit'
+
+  # :diameter         => 20,
+  # 
+  # :share_color      => 'red',
+  # :remain_color     => 'lightgrey',
+  # :min_color        => 'blue',
+  # :max_color        => 'green',
+  # :last_color       => 'red',
+  # :std_dev_color    => '#efefef',
+  # 
+  # :has_min          => false,
+  # :has_max          => false,
+  # :has_last         => nil,
+  # :has_std_dev      => false,
+  # 
+
+  long_desc "Available plot types: area, discrete, pie, smooth, bar, bullet, whisker"
+  def plot(type, *data)
+    data = data.map{|d| d.to_f }
+    image = Sparklines.plot_to_image(data, {:type => type}.merge(options))
+    $stdout << image.to_blob
+  end
+end
+
+Sparklr.start

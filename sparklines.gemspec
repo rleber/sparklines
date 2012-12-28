@@ -1,9 +1,10 @@
 Gem::Specification.new do |s|
   s.name = %q{sparklines}
-  s.version = "0.5.3"
+  s.version = "0.5.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Geoffrey Grosenbach"]
+  # Revisions 2012 by Richard LeBer
   s.date = %q{2008-08-20}
   s.description = %q{Tiny graphs.}
   s.email = %q{boss@topfunky.com}
@@ -17,6 +18,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.2.0}
   s.summary = %q{Tiny graphs.}
   s.test_files = ["test/test_all.rb"]
+  s.executables << "sparkl"
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
