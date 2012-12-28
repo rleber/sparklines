@@ -8,7 +8,7 @@ require_relative '../lib/sparklines'
 
 class Sparklr < Thor
   
-  desc :plot, "Plot a sparkline"
+  desc "plot [OPTIONS] TYPE [DATA...]", "Plot a sparkline"
   option 'above_color',      aliases: '-A', type: 'string',  desc: 'Color for bars above limit'
   option 'background_color', aliases: '-b', type: 'string',  desc: 'Background color'
   option 'below_color',      aliases: '-B', type: 'string',  desc: 'Color for bars below limit'
